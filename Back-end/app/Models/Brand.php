@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Brand extends Model
 {
     use HasFactory;
+    protected $table = 'brand';
     protected $primaryKey = 'id_brand';
     public $timestamps = true;
     protected $fillable = ['name'];

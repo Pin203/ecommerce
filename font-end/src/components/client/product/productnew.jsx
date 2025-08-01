@@ -51,33 +51,76 @@ const Productnew = () => {
     }
 
     return (
-        <section className="new-products-section py-5">
+        <>
+            <section class="features-section py-4">
+            <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="feature-card d-flex align-items-center justify-content-center p-3">
+                        <i class="fa-solid fa-truck-fast feature-icon me-3"></i>
+                        <div>
+                            <h5 class="mb-1">Vận chuyển TOÀN QUỐC</h5>
+                            <p class="mb-0">Thanh toán khi nhận hàng</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="feature-card d-flex align-items-center justify-content-center p-3">
+                        <i class="fa-solid fa-thumbs-up feature-icon me-3"></i>
+                        <div>
+                            <h5>Bảo đảm chất lượng</h5>
+                            <p class="mb-0">Sản phẩm bảo đảm chất lượng</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="feature-card d-flex align-items-center justify-content-center p-3">
+                        <i class="fa-solid fa-wallet feature-icon me-3"></i>
+                        <div>
+                            <h5 class="mb-1">Tiện hành THANH TOÁN</h5>
+                            <p class="mb-0">Với nhiều PHƯƠNG THỨC</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="feature-card d-flex align-items-center justify-content-center p-3">
+                        <i class="fa-solid fa-arrow-right-arrow-left feature-icon me-3"></i>
+                        <div>
+                            <h5 class="mb-1">Đổi sản phẩm mới</h5>
+                            <p class="mb-0">nếu sản phẩm lỗi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <section className="new-products-section py-4">
             <div className="container">
                 <div className="section-header text-center mb-4 p-3">
                     <h2 className="text-white mb-0">SẢN PHẨM MỚI</h2>
                 </div>
 
+                {/* Modified Bootstrap grid classes here */}
                 <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3 justify-content-center">
                     {products.length > 0 ? (
                         products.map((product) => (
                             <div className="col" key={product.id_product_detail || product.id_product}>
-                                {/* Bọc toàn bộ thẻ sản phẩm bằng component Link */}
-                                {/* 'to' là đường dẫn đến trang chi tiết, sử dụng id_product_detail */}
-                               <Link to={`/product/${product.id_product}`} className="text-decoration-none text-dark">
-                                    <div className="product-card">
-                                        {/* Hiển thị phần trăm giảm giá nếu có */}
-                                        {/* Giả định: product.gia là giá sau giảm, product.price là giá gốc */}
+                                <Link to={`/product/${product.id_product}`} className="text-decoration-none text-dark">
+                                    <div className="product-card position-relative">
+                                       <span 
+                                            className="new-badge position-absolute bg-danger text-white px-2 py-1 rounded-pill" 
+                                            style={{ top: '10px', right: '10px', fontSize: '0.75em', zIndex: 10 }}
+                                        >
+                                            NEW
+                                        </span>                                        
                                         {product.gia && product.price && parseFloat(product.gia) < parseFloat(product.price) && (
                                             <span className="discount-badge">
                                                 -{((1 - (parseFloat(product.gia) / parseFloat(product.price))) * 100).toFixed(0)}%
                                             </span>
                                         )}
                                         <div className="product-image-wrapper">
-                                        <img
-                                          src={product.img || 'https://via.placeholder.com/150'} // Sử dụng trực tiếp product.img
-                                          className="img-fluid"
-                                          alt={product.name}
-                                      />
+                                            <img src={`${process.env.REACT_APP_LARAVEL_API_URL}${product.img}`} className="img-fluid"/>
+
                                         </div>
                                         <div className="product-info p-2">
                                             <p className="product-name mb-1">{product.name}</p>
@@ -89,10 +132,8 @@ const Productnew = () => {
                                                 <i className="fa-regular fa-star"></i>
                                             </div>
                                             <p className="product-price mb-0">
-                                                {/* Hiển thị giá đã giảm nếu có, nếu không thì giá gốc */}
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseFloat(product.gia) || parseFloat(product.price))}
                                             </p>
-                                            {/* Hiển thị giá gốc gạch ngang nếu có giảm giá */}
                                             {product.gia && product.price && parseFloat(product.gia) < parseFloat(product.price) && (
                                                 <p className="original-price" style={{ textDecoration: 'line-through', fontSize: '0.8em', color: '#888' }}>
                                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseFloat(product.price))}
@@ -111,6 +152,7 @@ const Productnew = () => {
                 </div>
             </div>
         </section>
+        </>
     );
 };
 

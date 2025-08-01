@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         // Sản phẩm mới (8 sản phẩm gần nhất)
         $sanphammoi = Product::orderBy('created_at', 'desc')
-            ->take(8)
+            ->take(10)
             ->get();
 
         // Sản phẩm khuyến mãi (discount > 0)
@@ -26,7 +26,7 @@ class HomeController extends Controller
         // Sản phẩm nổi bật (is_featured = true)
         $sanphamnoibat = Product::where('is_featured', true)
             ->orderBy('created_at', 'desc')
-            ->take(8)
+            ->take(10)
             ->get();
 
         // Danh sách danh mục

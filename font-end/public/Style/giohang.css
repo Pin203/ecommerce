@@ -122,9 +122,9 @@ body {
   position: relative;
 }
 
-.main-content p {
+/* .main-content p {
   margin-left: 30%;
-}
+} */
 
 .main-content h1 {
   margin-left: 50%;
@@ -366,4 +366,23 @@ body {
 .payment-icons img {
   height: 26px;
   margin-left: 10px;
+}
+.cart-badge {
+  background-color: #e11d48; /* Màu đỏ */
+  color: white;
+  font-size: 10px; /* Cỡ chữ nhỏ */
+  padding: 2px 6px; /* Điều chỉnh padding để kiểm soát kích thước */
+  border-radius: 50%; /* Làm cho nó tròn hoàn hảo */
+  min-width: 16px; /* Đảm bảo chiều rộng tối thiểu */
+  height: 16px; /* Đảm bảo chiều cao nhất quán */
+  display: flex; /* Dùng flexbox để căn giữa nội dung */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  box-sizing: border-box; /* Bao gồm padding và border trong kích thước tổng */
+
+  /* Định vị trên biểu tượng giỏ hàng (nếu phần tử cha có position: relative) */
+  position: absolute;
+  top: -5px; /* Điều chỉnh vị trí */
+  right: -5px; /* Điều chỉnh vị trí */
+  z-index: 10;
 }

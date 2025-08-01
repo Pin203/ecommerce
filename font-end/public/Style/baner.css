@@ -1,0 +1,37 @@
+/* Basic styling for the hero section to handle overflow if needed */
+.hero-section {
+    overflow: hidden; /* Ensures image doesn't overflow its container */
+}
+
+/* Styles for the slider dots container */
+.slider-dots {
+    display: flex; /* Arranges dots in a row */
+    gap: 10px; /* Space between dots */
+}
+
+/* Styles for individual dots */
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+    border-radius: 50%; /* Makes dots circular */
+    cursor: pointer; /* Indicates it's clickable */
+    transition: background-color 0.3s ease; /* Smooth transition for color change */
+}
+
+/* Styles for the active (current) dot */
+.dot.active {
+    background-color: white; /* Solid white when active */
+    border: 1px solid #333; /* Optional: adds a slight border */
+}
+
+/* You can add more specific styles for overlay-text if you plan to use it */
+.overlay-text {
+    /* Example: adjust position and text styles */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    /* text-align: center; */
+    /* font-size: 2em; */
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
+}

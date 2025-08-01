@@ -1,0 +1,91 @@
+ #sidebar {
+            width: 250px;
+            background-color: #0d1a38;
+            color: #fff;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        #sidebar .nav-link {
+            color: #fff;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-left: 5px solid transparent;
+            transition: all 0.3s ease;
+        }
+        #sidebar .nav-link:hover {
+            background-color: #1a2c53;
+            color: #fff;
+        }
+        #sidebar .nav-link.active {
+            background-color: #1a2c53;
+            border-left-color: #007bff;
+            font-weight: bold;
+        }
+        #sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        /* CSS Riêng cho trang Thêm sản phẩm */
+        .form-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .form-group {
+            margin-bottom: 1rem; /* Khoảng cách giữa các form-group */
+        }
+        .form-control, .form-select {
+            border-radius: 5px;
+            border-color: #dee2e6; /* Màu viền input */
+        }
+        textarea.form-control {
+            min-height: 100px; /* Chiều cao tối thiểu cho textarea */
+            resize: vertical; /* Cho phép resize theo chiều dọc */
+        }
+        .btn-primary-custom {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary-custom:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .file-input-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .file-input-wrapper .form-control {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+/* Thử selector cụ thể hơn */
+/* Đặt trong file CSS của bạn (ví dụ: styles.css) và đảm bảo nó được tải SAU Bootstrap */
+.form-check-input:checked[type="radio"] {
+  background-color: #0d6efd; /* Màu xanh của Bootstrap */
+  border-color: #0d6efd;   /* Viền cùng màu */
+}
+
+.form-check-input:checked[type="radio"]::before {
+  background-color: white; /* Chấm tròn bên trong màu trắng */
+}
+
+

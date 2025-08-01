@@ -8,13 +8,41 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $table = 'product';
-    protected $primaryKey = 'id_product';
-    public $timestamps = true;
-    protected $fillable = ['id_category', 'id_brand', 'name', 'price', 'img'];
 
-    public function brand() { return $this->belongsTo(Brand::class, 'id_brand'); }
-    public function category() { return $this->belongsTo(Category::class, 'id_category'); }
-    public function comments() { return $this->hasMany(Comment::class, 'id_product'); }
-    public function productDetails() { return $this->hasMany(ProductDetail::class, 'id_product'); }
+    protected $table = 'product'; // Đảm bảo đúng tên bảng
+
+    protected $primaryKey = 'id_product'; // Đảm bảo đúng khóa chính
+
+    // Thêm 'discount' và 'is_featured' vào fillable
+    protected $fillable = [
+        'id_category',
+        'id_brand',
+        'name',
+        'price',
+        'img',
+        'img_phu',
+        'discount',
+        'is_featured'
+    ];
+
+    // Quan hệ với Category
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'id_category', 'id_category');
+    }
+
+    // Quan hệ với Brand
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'id_brand', 'id_brand');
+    }
+
+    // Quan hệ với ProductDetail (một sản phẩm có thể có nhiều chi tiết/biến thể)
+    public function productDetails()
+    {
+        return $this->hasMany(ProductDetail::class, 'id_product', 'id_product');
+    }
+     protected $casts = [
+        'img_phu' => 'array', // <--- Laravel sẽ tự động cast JSON string thành PHP array
+    ];
 }

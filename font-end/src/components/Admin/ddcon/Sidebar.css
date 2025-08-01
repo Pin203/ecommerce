@@ -1,0 +1,39 @@
+/* Sidebar mặc định */
+.sidebar-custom {
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: -250px;
+   height: auto;  
+  overflow-y: auto;
+  transition: left 0.3s ease-in-out;
+  z-index: 1050;
+}
+
+
+/* Khi mở trên mobile */
+.sidebar-custom.open {
+  left: 0;
+}
+
+/* Nút mở menu mobile */
+.mobile-toggle {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1100;
+}
+
+/* Đảm bảo desktop luôn hiển thị sidebar */
+@media (min-width: 768px) {
+  .sidebar-custom {
+    left: 0 !important;
+    position: static; 
+    width: 250px;
+    height: auto;  
+  }
+
+  .mobile-toggle {
+    display: none;
+  }
+}

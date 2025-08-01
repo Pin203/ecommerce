@@ -24,7 +24,7 @@
      background-color: #f44336;
 }*/
 .product-detail-container {
-    display: flex;
+    /* display: flex; */
     flex-wrap: wrap;
     max-width: 1200px;
     margin: 20px auto;
@@ -46,7 +46,7 @@
 /* Product Images */
 .product-images {
     flex: 1;
-    min-width: 300px; /* Đảm bảo đủ không gian cho hình ảnh */
+    min-width: 600px; /* Đảm bảo đủ không gian cho hình ảnh */
     text-align: center;
     padding: 10px;
     background-color: #fff;
@@ -183,6 +183,7 @@
 /* Add to Cart Section */
 .add-to-cart-section {
     display: flex;
+    margin: 5px;
     align-items: center;
     gap: 10px; /* Giảm khoảng cách giữa các phần tử */
     margin-top: 20px;
@@ -274,37 +275,50 @@
 }
 
 /* Related Products Sidebar */
+/* Trong file CSS của bạn */
+
 .related-products-sidebar {
-    flex: 1; /* Chiếm ít không gian hơn */
-    min-width: 180px; /* Điều chỉnh để phù hợp với hình ảnh */
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eee; /* Thêm viền */
+    /* Đảm bảo sidebar không quá rộng để các item có thể hiển thị ngang */
+    /* width: fit-content; */ /* hoặc một giá trị cố định nếu muốn */
+    /* max-width: 100%; */
+
+    /* Thêm các thuộc tính này để tạo bố cục hàng ngang cho các item bên trong */
+    display: flex;
+    flex-direction: row; /* Sắp xếp các mục con (related-item) theo hàng ngang */
+    flex-wrap: wrap; /* Cho phép các mục con xuống dòng nếu không đủ chỗ */
+    gap: 15px; /* Tạo khoảng cách giữa các sản phẩm liên quan */
+    /* Các thuộc tính khác nếu cần cho sidebar, ví dụ padding, background */
+    padding: 15px; /* Ví dụ */
+    border: 1px solid #eee; /* Ví dụ */
 }
 
 .related-products-sidebar h3 {
-    font-size: 18px; /* Giảm font size */
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #333;
-    text-align: left; /* Căn trái theo hình */
-    border-bottom: 1px solid #eee; /* Gạch dưới tiêu đề */
-    padding-bottom: 10px;
+    /* Đảm bảo tiêu đề không bị flex cùng với các sản phẩm,
+       nếu bạn muốn nó luôn nằm trên các sản phẩm */
+    flex-basis: 100%; /* Chiếm toàn bộ chiều rộng có sẵn */
+    margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
 }
+
 
 .related-item {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    padding: 8px 5px; /* Giảm padding */
-    border-bottom: 1px dashed #eee;
+    /* margin-bottom: 10px; */ /* Bỏ margin-bottom vì đã có gap trên parent */
+    padding: 8px 5px;
+    border: 1px dashed #eee; /* Đổi border-bottom thành border để dễ nhìn hơn */
     transition: background-color 0.2s;
     cursor: pointer;
+    text-decoration: none;
+    flex-direction: row; /* Giữ nguyên vì bạn muốn ảnh và text nằm ngang */
+    /* Điều chỉnh kích thước của mỗi item để chúng có thể xếp ngang */
+    width: calc(33.33% - 10px); /* Ví dụ: 3 item mỗi hàng với gap 15px */
+    min-width: 180px; /* Đảm bảo mỗi item không quá nhỏ */
+    box-sizing: border-box; /* Quan trọng để padding/border không làm tăng kích thước */
 }
+
+/* Bỏ cái này nếu bạn đã có border trên related-item */
 .related-item:last-child {
-    border-bottom: none; /* Bỏ viền dưới cho item cuối cùng */
+    border-bottom: none;
 }
 
 .related-item:hover {
@@ -312,7 +326,7 @@
 }
 
 .related-item img {
-    width: 45px; /* Kích thước ảnh sản phẩm liên quan */
+    width: 45px;
     height: 45px;
     object-fit: cover;
     margin-right: 10px;
@@ -322,9 +336,24 @@
 
 .related-item p {
     margin: 0;
-    font-size: 13px; /* Giảm font size */
+    font-size: 13px;
     color: #555;
-    line-height: 1.3; /* Điều chỉnh line-height cho text xuống dòng */
+    line-height: 1.3;
+    flex-grow: 1; /* Cho phép phần text chiếm không gian còn lại */
+}
+
+.related-c {
+    display: flex;
+    flex-direction: column; /* Để tên và giá nằm dọc trong .related-c */
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.related-item-price {
+    font-weight: bold;
+    color: #e44d26; /* Màu sắc cho giá */
+    font-size: 14px; /* Kích thước font cho giá */
+    margin-top: 3px; /* Khoảng cách giữa tên và giá */
 }
 /* Product Description Section */
 .product-description-section,
@@ -430,6 +459,80 @@
     margin: 0;
     color: #555;
 }
+/* GENERAL SIDEBAR STYLES (CÓ THỂ BẠN ĐÃ CÓ) */
+.sidebar {
+    background-color: #f8f9fa; /* Màu nền nhẹ cho sidebar */
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+/* STYLE CHO TIÊU ĐỀ CÁC PHẦN TRONG SIDEBAR */
+.sidebar-section-title {
+    font-weight: bold;
+    padding: 0.75rem 0; /* Tăng padding để dễ click hơn */
+    border-bottom: 1px solid #e9ecef; /* Đường viền dưới nhẹ */
+    margin-bottom: 1rem;
+    cursor: pointer; /* Biểu tượng con trỏ chuột khi hover */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Hiệu ứng chuyển động mượt mà cho hover và icon */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+/* HIỆU ỨNG HOVER CHO TIÊU ĐỀ NỔI LÊN VÀ ĐỔI MÀU NHẸ */
+.sidebar-section-title.brand-section-header:hover {
+    /* background-color: #e2e6ea; Màu nền nhẹ hơn khi hover */
+    /* box-shadow: 0 0.2rem 0.7rem rgba(0, 0, 0, 0.1); Bóng đổ nổi bật hơn */
+    /* color: #007bff; Thay đổi màu chữ khi hover (tùy chọn) */
+}
+
+/* STYLE CHO BIỂU TƯỢNG CỘNG/TRỪ */
+.sidebar-section-title i {
+    margin-left: 0.5rem; /* Khoảng cách giữa chữ và icon */
+    transition: transform 0.3s ease; /* Hiệu ứng xoay mượt mà cho icon */
+    font-size: 1.1rem; /* Kích thước icon */
+}
+
+/* Đảm bảo icon dấu trừ không bị xoay ngược khi mở */
+.sidebar-section-title i.bi-dash {
+    transform: rotate(0deg); /* Đảm bảo icon dấu trừ không xoay khi mở */
+}
+
+/* Optional: Make the plus icon rotate on click */
+/* .sidebar-section-title i.bi-plus {
+    transform: rotate(0deg);
+}
+.sidebar-section-title.brand-section-header:not(.collapsed) i.bi-plus {
+    transform: rotate(45deg); // Rotate the plus to make it an X or just use bi-dash
+} */
+
+
+/* STYLES CHO PHẦN PHÂN TRANG (PAGINATION) */
+
+/* Mặc định của Bootstrap cho active */
+/* .page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #0d6efd; // Màu xanh mặc định của Bootstrap
+    border-color: #0d6efd;
+} */
+
+/* Custom style để active page màu đỏ như ảnh bạn cung cấp */
+.page-item.active .page-link {
+    background-color: #dc3545; /* Màu đỏ */
+    border-color: #dc3545; /* Viền đỏ */
+    color: #fff;
+}
+
+/* Style cho các liên kết phân trang bị vô hiệu hóa (previous/next) */
+.page-item.disabled .page-link {
+  background-color: #fff; /* Nền màu trắng */
+  color: #6c757d; /* Màu chữ xám */
+  border-color: #dee2e6; /* Viền xám nhạt */
+  cursor: not-allowed; /* Con trỏ chuột chỉ báo không thể click */
+}
+
 
 /* Responsive Adjustments */
 @media (max-width: 992px) {
@@ -523,3 +626,6 @@
         height: 60px;
     }
 }
+
+
+

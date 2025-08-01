@@ -1,0 +1,32 @@
+/* Sửa đổi CSS tùy chỉnh của bạn */
+.custom-admin-modal .modal-content {
+    /* Chỉ áp dụng các thuộc tính CSS này cho modal của bạn */
+    /* Ví dụ: */
+    /* width: auto; hoặc reset lại các thuộc tính */
+    /* background-color: #fff; */
+    /* border: 1px solid rgba(0,0,0,.2); */
+    /* Các thuộc tính Bootstrap mặc định hoặc giá trị bạn muốn */
+}
+
+/* Nếu có CSS cho nút đóng bị lỗi */
+.custom-admin-modal .btn-close {
+    /* Đảm bảo nó không bị ghi đè màu */
+    color: #000; /* Mặc định của Bootstrap */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707A1 1 0 01.293.293z'/%3e%3c/svg%3e"); /* Icon X mặc định */
+}
+
+/* Nếu có CSS cho các nút xác nhận/hủy bị lỗi */
+.custom-admin-modal .btn-danger {
+    /* Đảm bảo nó có màu đỏ của Bootstrap */
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.custom-admin-modal .btn-secondary {
+    /* Đảm bảo nó có màu xám của Bootstrap */
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+}
+/* ... và các nút khác nếu cần */

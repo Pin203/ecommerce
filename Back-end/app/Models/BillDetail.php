@@ -8,10 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class BillDetail extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_bill_detail';
+    protected $table = 'billdetail';
+    protected $primaryKey = 'id_billdetail';
     public $timestamps = false;
-    protected $fillable = ['id_bill', 'id_productdetail', 'sl', 'gia', 'danhgia'];
+    protected $fillable = ['id_bill', 'id_productdetail', 'quantity', 'price', 'created_at','updated_at'];
 
-    public function bill() { return $this->belongsTo(Bill::class, 'id_bill'); }
-    public function productDetail() { return $this->belongsTo(ProductDetail::class, 'id_productdetail'); }
+    public function bill()
+    {
+        return $this->belongsTo(Bill::class, 'id_bill');
+    }
+    public function productDetail()
+    {
+        return $this->belongsTo(ProductDetail::class, 'id_productdetail');
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'id_product');
+    }
 }

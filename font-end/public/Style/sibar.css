@@ -1,0 +1,43 @@
+ /* CSS Tùy chỉnh để điều chỉnh giao diện giống hình ảnh */
+    
+        #sidebar {
+            width: 250px;
+            background-color: #0d1a38; /* Màu xanh đậm của sidebar */
+            color: #fff;
+            height: 100vh; /* Chiếm toàn bộ chiều cao màn hình */
+            position: sticky; /* Sticky để sidebar luôn hiển thị khi cuộn */
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Đổ bóng nhẹ */
+            flex-shrink: 0; /* Ngăn sidebar bị co lại */
+        }
+        #sidebar .nav-link {
+            color: #fff;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-left: 5px solid transparent; /* Border cho mục được chọn */
+            transition: all 0.3s ease; /* Hiệu ứng chuyển động mượt mà */
+        }
+        #sidebar .nav-link:hover {
+            background-color: #1a2c53;
+            color: #fff;
+        }
+        #sidebar .nav-link.active {
+            background-color: #1a2c53; /* Màu nền cho mục active */
+            border-left-color: #007bff; /* Màu border xanh cho mục active */
+            font-weight: bold;
+        }
+        #sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px; /* Đảm bảo icon có cùng chiều rộng */
+            text-align: center;
+        }
+        #sidebar .nav-item .dropdown-toggle::after {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            /* Điều chỉnh mũi tên dropdown cho các mục có submenu */
+        }

@@ -1,3 +1,7 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* .App {
   text-align: center;
 }
@@ -59,3 +63,119 @@
 .product-card-link .original-price {
     color: #888; /* Màu xám cho giá gốc bị gạch ngang */
 }
+.main-content {
+  flex: 1;
+  padding: 10px;
+  margin: 0; /* reset margin */
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+.product-card-link {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: inherit; /* Kế thừa màu chữ từ phần tử cha, hoặc đặt màu mong muốn */
+}
+
+.product-card-link:hover {
+    /* Định nghĩa hiệu ứng khi di chuột qua, ví dụ đổi màu chữ */
+    color: #007bff; /* Ví dụ: màu xanh khi hover */
+    /* text-decoration: underline; // Nếu bạn muốn gạch chân khi hover */
+}
+
+/* Đảm bảo tên sản phẩm không bị ảnh hưởng bởi màu link mặc định */
+.product-card-link .product-name {
+    color: #333; /* Đặt màu chữ mong muốn cho tên sản phẩm */
+}
+
+/* Đảm bảo giá không bị ảnh hưởng bởi màu link mặc định */
+.product-card-link .product-price {
+    color: #dc3545; /* Ví dụ: màu đỏ cho giá hiện tại */
+}
+.product-card-link .original-price {
+    color: #888; /* Màu xám cho giá gốc bị gạch ngang */
+}
+.account-hover {
+  position: relative;
+}
+
+.account-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%; /* nằm dưới icon */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  min-width: 120px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.account-dropdown a {
+  display: block;
+  padding: 5px 10px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.account-dropdown a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Hover để hiển thị menu */
+.account-hover:hover .account-dropdown {
+  display: block;
+}
+.account-dropdown a {
+  display: block;
+  padding: 5px 10px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.account-dropdown a:hover {
+  background-color: #ffe5b4; /* nền cam nhạt (tuỳ chọn) */
+  color: orange; /* chữ màu cam */
+}
+

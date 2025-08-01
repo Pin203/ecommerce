@@ -1,0 +1,237 @@
+/* MyOrdersPage.css */
+
+/* Kiểu dáng chung cho Body để hiển thị font tốt hơn */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa; /* Nền sáng cho trang */
+}
+
+/* Kiểu dáng cho Card (của MyOrdersPage chính) */
+.card {
+    border-radius: 0.75rem; /* Góc bo tròn nhẹ cho card */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Bóng mềm để tạo chiều sâu */
+}
+
+/* Kiểu dáng cho Bảng */
+.table {
+    margin-bottom: 0; /* Xóa lề dưới mặc định của bảng */
+}
+
+.table thead th {
+    background-color: #343a40; /* Nền tối hơn cho tiêu đề */
+    color: #fff; /* Chữ trắng cho tiêu đề */
+    border-bottom: 2px solid #dee2e6; /* Đường phân cách cho tiêu đề */
+    vertical-align: middle;
+    padding: 1rem 0.75rem; /* Thêm đệm cho các ô tiêu đề */
+    white-space: nowrap; /* Ngăn không cho tiêu đề cột bị xuống dòng */
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1; /* Hiệu ứng di chuột nhẹ cho các hàng */
+    cursor: pointer; /* Cho biết các hàng có thể nhấp */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.03); /* Sọc nhẹ để dễ đọc */
+}
+
+/* Kiểu dáng tùy chỉnh cho hàng Đơn hàng */
+.order-row-custom {
+    transition: all 0.2s ease-in-out; /* Chuyển động mượt mà cho hiệu ứng di chuột */
+}
+
+.order-row-custom td {
+    vertical-align: middle;
+    padding: 0.75rem; /* Đệm tiêu chuẩn cho các ô bảng */
+    word-wrap: break-word; /* Đảm bảo văn bản dài tự động xuống dòng */
+}
+
+/* Màu sắc Badge tùy chỉnh */
+
+
+/* Badge màu tím tùy chỉnh */
+/* Đổi từ #007bff sang #6f42c1 để phù hợp với màu tím ban đầu của bạn nếu muốn */
+.bg-purple {
+    background-color: #6f42c1 !important; /* Một tông màu tím đẹp */
+    color: #fff !important;
+}
+
+/* Hành vi Responsive của Bảng */
+@media (max-width: 767.98px) {
+    .table-responsive {
+        border: 1px solid #dee2e6; /* Thêm đường viền cho wrapper responsive của bảng */
+        border-radius: 0.5rem;
+        /* Loại bỏ overflow-x: auto để buộc các hàng xếp chồng */
+        overflow-x: hidden; /* Đảm bảo không có scroll ngang không mong muốn */
+    }
+
+    .table thead {
+        display: none; /* Ẩn tiêu đề bảng trên màn hình nhỏ */
+    }
+
+    .table tbody,
+    .table tr,
+    .table td {
+        display: block; /* Biến các phần tử bảng thành block-level */
+        width: 100%; /* Chiều rộng đầy đủ cho các phần tử block */
+    }
+
+    .table tr {
+        margin-bottom: 1rem; /* Khoảng cách giữa các "hàng" trên màn hình nhỏ */
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        background-color: #fff;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        /* Loại bỏ display: flex cho tr để mỗi td là một block riêng biệt */
+        display: block; /* Mỗi hàng là một khối riêng */
+    }
+
+    .table td {
+        text-align: right; /* Căn chỉnh nội dung sang phải */
+        position: relative;
+        padding-left: 100px; /* Đảm bảo đủ không gian cho nhãn (điều chỉnh nếu cần) */
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee; /* Đường phân cách giữa các trường */
+        display: flex; /* Sử dụng flexbox bên trong td để căn chỉnh nhãn và giá trị */
+        align-items: center; /* Căn giữa theo chiều dọc */
+        justify-content: flex-end; /* Đẩy giá trị sang phải */
+    }
+
+    .table td:last-child {
+        border-bottom: none; /* Loại bỏ đường phân cách cuối cùng trong mỗi card */
+    }
+
+    .table td::before {
+        content: attr(data-label); /* Sử dụng data-label cho nội dung nhãn */
+        position: absolute;
+        left: 0.75rem; /* Vị trí của nhãn */
+        width: 90px; /* Chiều rộng cố định cho nhãn */
+        text-align: left; /* Căn chỉnh nhãn sang trái */
+        font-weight: bold;
+        color: #6c757d; /* Màu nhạt cho nhãn */
+        /* Giữ top: 50% và transform: translateY(-50%) để căn giữa nhãn */
+        top: 50%;
+        transform: translateY(-50%);
+        white-space: nowrap; /* Ngăn không cho nhãn bị xuống dòng */
+        overflow: hidden; /* Ẩn phần văn bản nhãn tràn ra ngoài */
+        text-overflow: ellipsis; /* Hiển thị dấu ba chấm nếu tràn */
+    }
+
+    /* Các nhãn ::before cho từng cột (giữ nguyên) */
+    .table td:nth-of-type(1)::before { content: "Mã đơn hàng:"; }
+    .table td:nth-of-type(2)::before { content: "Ngày đặt:"; }
+    .table td:nth-of-type(3)::before { content: "Tổng tiền:"; }
+    .table td:nth-of-type(4)::before { content: "PTTT:"; }
+    .table td:nth-of-type(5)::before { content: "Địa chỉ:"; }
+    .table td:nth-of-type(6)::before { content: "Trạng thái:"; } /* Cột trạng thái */
+    .table td:nth-of-type(7)::before { content: "Hành động:"; } /* Cột hành động */
+
+    /* Điều chỉnh bố cục riêng cho cột trạng thái và hành động trên mobile */
+    /* Các cột này nên chiếm toàn bộ chiều rộng và căn giữa để trông như một block riêng */
+    .table td:nth-of-type(6),
+    .table td:nth-of-type(7) {
+        display: block; /* Biến td thành block */
+        text-align: center; /* Căn giữa nội dung */
+        padding-left: 0.75rem; /* Reset padding để nhãn không còn nằm trong không gian của nội dung */
+        padding-right: 0.75rem;
+        justify-content: center; /* Không cần flex-end nữa */
+        border-top: 1px solid #eee; /* Thêm đường phân cách trên mobile */
+        margin-top: 0.5rem; /* Khoảng cách với hàng trên */
+        padding-top: 0.75rem; /* Đệm trên sau đường phân cách */
+    }
+
+    .table td:nth-of-type(6)::before,
+    .table td:nth-of-type(7)::before {
+        display: block; /* Biến nhãn thành block để nó nằm trên nội dung */
+        position: static; /* Đặt lại vị trí */
+        transform: none; /* Xóa transform */
+        width: 100%; /* Chiếm toàn bộ chiều rộng */
+        margin-bottom: 0.25rem; /* Khoảng cách với nội dung */
+        font-size: 0.9em; /* Kích thước font nhỏ hơn cho nhãn */
+        text-align: center; /* Căn giữa nhãn */
+        padding-right: 0; /* Xóa padding phải cho nhãn này */
+    }
+
+    .table td .badge {
+        width: auto; /* Cho phép badge co lại trên màn hình nhỏ */
+        min-width: unset;
+    }
+
+    /* Đảm bảo nút "Hủy" được căn giữa đúng cách */
+    .table td .btn {
+        width: auto; /* Cho phép nút tự điều chỉnh chiều rộng */
+        display: inline-block; /* Để các button không bị chiếm hết hàng */
+        margin: 0 auto; /* Căn giữa nút nếu nó là block */
+    }
+}
+
+/* Kiểu dáng Modal tùy chỉnh (cho CustomAlert và CustomConfirm) */
+.modal.show.d-block {
+    display: flex !important; /* Sử dụng flexbox để căn giữa modal */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    padding: 1rem; /* Thêm một số đệm để ngăn nội dung chạm vào các cạnh */
+}
+
+.modal-dialog {
+    max-width: 500px; /* Chiều rộng tối đa cho modal trên màn hình lớn hơn */
+    width: 90%; /* Chiều rộng responsive cho modal */
+    margin: auto; /* Căn giữa hộp thoại modal */
+}
+
+.modal-content {
+    border-radius: 0.75rem;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    border: none;
+}
+
+.modal-body {
+    padding: 2rem; /* Thêm đệm bên trong phần thân modal */
+    font-size: 1.15rem; /* Kích thước font lớn hơn cho tin nhắn */
+}
+
+.modal-footer {
+    border-top: none; /* Xóa đường viền khỏi chân trang */
+    padding: 1rem 2rem 2rem; /* Điều chỉnh đệm chân trang */
+}
+
+.modal-footer .btn {
+    min-width: 100px; /* Chiều rộng nút nhất quán */
+    font-weight: 500;
+}
+
+/* Kiểu dáng thông báo Tải và Lỗi */
+.container.text-center.py-5 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+    font-size: 1.25rem;
+    color: #6c757d;
+}
+
+.container.text-center.py-5.text-danger {
+    color: #dc3545 !important;
+    font-weight: bold;
+}
+
+/* Responsive tối ưu cho bảng đơn hàng trên màn hình nhỏ hơn nữa */
+@media (max-width: 575.98px) {
+    .order-row-custom td {
+        font-size: 14px;
+        padding: 0.5rem 0.3rem;
+    }
+
+    .order-row-custom .btn-sm {
+        font-size: 13px;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .order-row-custom .badge {
+        font-size: 12px;
+    }
+
+    .modal-content .lead {
+        font-size: 16px;
+    }
+}

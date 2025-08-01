@@ -1,4 +1,9 @@
-body {
+/* Reset mặc định */
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +15,125 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+/* Tailwind CSS directives */
+/* Dành cho Productnew.js */
+
+/* Trong file CSS của bạn, ví dụ: src/assets/styles/main.css hoặc Header.css */
+
+.search-bar {
+    position: relative; /* Quan trọng để popup định vị tương đối với nó */
 }
+
+.search-suggestions-popup {
+    position: absolute;
+    top: 100%; /* Đặt popup ngay bên dưới input */
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Đảm bảo popup nằm trên các element khác */
+    max-height: 400px; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Thêm scroll nếu quá dài */
+    padding: 10px 0;
+}
+
+.suggestion-section-title {
+    font-weight: bold;
+    padding: 8px 15px;
+    color: #555;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none; /* Để loại bỏ gạch chân cho Link */
+    color: inherit; /* Giữ màu chữ mặc định */
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestion-post {
+    font-size: 0.95em;
+    color: #333;
+}
+
+.suggestion-product {
+    gap: 10px; /* Khoảng cách giữa ảnh và thông tin */
+}
+
+.suggestion-product-img {
+    width: 50px; /* Kích thước ảnh sản phẩm */
+    height: 50px;
+    object-fit: cover;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    flex-shrink: 0; /* Đảm bảo ảnh không bị co lại */
+}
+
+.suggestion-product-info {
+    flex-grow: 1;
+}
+
+.suggestion-product-name {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.95em;
+    white-space: nowrap; /* Ngăn tên sản phẩm xuống dòng */
+    overflow: hidden; /* Cắt bớt nếu quá dài */
+    text-overflow: ellipsis; /* Hiển thị dấu ba chấm nếu bị cắt */
+}
+
+.suggestion-product-prices {
+    font-size: 0.85em;
+    margin-top: 2px;
+}
+
+.suggestion-product-prices .original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 5px;
+}
+
+.suggestion-product-prices .final-price {
+    color: #e44d26; /* Màu đỏ cho giá khuyến mãi */
+    font-weight: bold;
+}
+
+.view-more-results {
+    display: block;
+    text-align: center;
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    color: #007bff; /* Màu xanh link */
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.view-more-results:hover {
+    background-color: #f8f8f8;
+    color: #0056b3;
+}
+
+.no-results {
+    padding: 10px 15px;
+    color: #777;
+    text-align: center;
+    font-style: italic;
+}
+
+

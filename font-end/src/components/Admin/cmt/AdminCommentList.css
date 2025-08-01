@@ -1,0 +1,19 @@
+.admin-comment-list {
+  padding: 1rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.admin-comment-item {
+  background: #fdfdfd;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 60px;
+  margin-bottom: 0.5rem;
+}
