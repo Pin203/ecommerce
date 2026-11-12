@@ -12,7 +12,7 @@ class Bill extends Model
     protected $primaryKey = 'id_bill';
     public $timestamps = false;
     // Thay 'trangthai' bằng 'order_status' trong fillable
-    protected $fillable = ['id_user', 'hoten_nguoinhan', 'diachi_nguoinhan', 'dienthoai_nguoinhan', 'total', 'pttt', 'ngaydat', 'voucher', 'order_status'];
+    protected $fillable = ['id_user', 'hoten_nguoinhan', 'diachi_nguoinhan', 'dienthoai_nguoinhan', 'total', 'pttt', 'ngaydat','ngaynhan', 'voucher', 'order_status', 'payment_status' ];
 
     public function user()
     {

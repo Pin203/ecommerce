@@ -13,14 +13,14 @@ class NewsController extends Controller
 
     public function show($id)
     {
-        $news = News::with('creator')->findOrFail($id);
+        $news = News::findOrFail($id);
 
         // Tăng lượt xem
         $news->increment('views');
 
         // Gợi ý các tin tức liên quan (ngẫu nhiên)
         $related = News::where('id', '!=', $id)
-            ->orderByRaw('RAND()')
+            ->inRandomOrder()
             ->limit(3)
             ->get(['id', 'title', 'image']);
 

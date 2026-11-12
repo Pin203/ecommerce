@@ -1,0 +1,68 @@
+.container {
+    padding: 20px;
+}
+
+.h1tintuc {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.featured-news {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.featured-news .post-image img {
+    width: 300px;
+    height: auto;
+}
+
+.featured-news .post-content {
+    padding-left: 20px;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 70%;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.blog-post {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.post-image img {
+    width: 100%;
+    height: auto;
+}
+
+.post-title {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.post-description {
+    font-size: 14px;
+    color: #666;
+}
+
+.read-more {
+    display: block;
+    margin-top: 10px;
+    color: #007bff;
+}

@@ -1,0 +1,141 @@
+
+        .header-bar {
+            background-color: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .table img {
+            max-width: 50px;
+            height: auto;
+            border-radius: 5px;
+        }
+        .status-badge-green {
+            background-color: #28a745;
+            color: white;
+            padding: .3em .6em;
+            border-radius: .25rem;
+        }
+        .status-badge-red {
+            background-color: #dc3545;
+            color: white;
+            padding: .3em .6em;
+            border-radius: .25rem;
+        }
+        .action-button {
+            margin-right: 5px;
+        }
+.card-header {
+    background-color: #f2f2f2; /* Light grey for card headers */
+    font-weight: bold;
+}
+
+.table img.img-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover; /* Ensures images fit well */
+}
+
+/* Style for the active pagination button */
+.pagination .page-item:first-child .page-link {
+    background-color: #FFFFFF; 
+    /* border-color: #dc3545; */
+    color: #007bff;
+}
+
+.pagination .page-item .page-link {
+    color: #007bff; 
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #dc3545; 
+    border-color: #dc3545;
+    color: white;
+}
+
+.statistic-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            height: 90%; /* Đảm bảo chiều cao thống nhất trong cùng 1 row */
+        }
+        .statistic-card .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .statistic-card .title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .statistic-card .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+        /* Màu icon cho từng loại thẻ thống kê */
+        .icon-circle.blue { background-color: #007bff; }
+        .icon-circle.purple { background-color: #6f42c1; }
+        .icon-circle.green { background-color: #28a745; }
+        .icon-circle.red { background-color: #dc3545; }
+
+        .section-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            height: 100%; /* Đảm bảo các card có chiều cao bằng nhau trong row */
+        }
+        .order-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+        .order-item .status {
+            font-size: 0.9rem;
+            color: #007bff; /* Màu xanh cho trạng thái */
+            font-weight: 500;
+        }
+        .order-item .method {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .order-item .total {
+            font-weight: bold;
+            color: #333;
+        }
+        .chart-placeholder {
+            min-height: 300px; /* Đặt chiều cao tối thiểu cho biểu đồ */
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6c757d;
+            border: 1px dashed #ced4da;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+

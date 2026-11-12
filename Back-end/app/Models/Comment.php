@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
-
+    protected $table = 'comments';
     protected $primaryKey = 'id_comment';
     public $timestamps = false;
 
@@ -17,6 +17,7 @@ class Comment extends Model
         'id_product',
         'date',
         'noidung',
+        'is_hidden'
     ];
 
     // Quan hệ với bảng users

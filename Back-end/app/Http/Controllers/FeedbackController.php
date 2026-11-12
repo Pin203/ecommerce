@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Feedback;
 use App\Models\FeedbackMedia;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class FeedbackController extends Controller
 {
@@ -29,41 +29,49 @@ class FeedbackController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_user' => 'required|exists:user,id_user',
+            'id_user'          => 'required|exists:user,id_user',
             'id_productdetail' => 'required|numeric',
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:1000'
+            'rating'           => 'required|integer|min:1|max:5',
+            'comment'          => 'nullable|string|max:1000',
         ]);
 
-        // Tìm đơn hàng chứa sản phẩm
-        $billDetail = DB::table('billdetail')
+        // 🔹 Lấy đơn hàng delivered gần nhất chứa sản phẩm mà chưa feedback
+        $bills = DB::table('billdetail')
             ->join('bill', 'billdetail.id_bill', '=', 'bill.id_bill')
             ->where('bill.id_user', $request->id_user)
             ->where('billdetail.id_productdetail', $request->id_productdetail)
-            ->select('bill.id_bill', 'billdetail.id_productdetail')
-            ->first();
+            ->where('bill.order_status', 'delivered')
+            ->select('bill.id_bill', 'bill.ngaydat')
+            ->orderByDesc('bill.ngaydat')
+            ->get();
 
-        if (!$billDetail) {
-            return response()->json(['message' => 'Bạn chưa mua sản phẩm này.'], 403);
+        $billDetail = null;
+        foreach ($bills as $bill) {
+            $feedbackExists = Feedback::where('id_user', $request->id_user)
+                ->where('id_productdetail', $request->id_productdetail)
+                ->where('id_bill', $bill->id_bill)
+                ->exists();
+
+            if (! $feedbackExists) {
+                $billDetail = $bill;
+                break;
+            }
         }
 
-        // Kiểm tra đã đánh giá sản phẩm trong đơn hàng này chưa
-        $exists = Feedback::where('id_user', $request->id_user)
-            ->where('id_productdetail', $request->id_productdetail)
-            ->where('id_bill', $billDetail->id_bill)
-            ->exists();
-
-        if ($exists) {
-            return response()->json(['message' => 'Bạn đã đánh giá sản phẩm này trong đơn hàng này rồi.'], 409);
+        if (! $billDetail) {
+            return response()->json(['message' => 'Bạn đã đánh sản phẩm này rồi'], 403);
         }
+
+        
+        
 
         $review = Feedback::create([
-            'id_user' => $request->id_user,
-            'id_productdetail' => $request->id_productdetail,
-            'id_bill' => $billDetail->id_bill,
-            'rating' => $request->rating,
-            'comment' => $request->comment,
-            'status' => 'approved'
+        'id_user' => $request->id_user,
+        'id_productdetail' => $request->id_productdetail,
+         'id_bill' => $billDetail->id_bill,
+         'rating' => $request->rating,
+         'comment' => $request->comment,
+         'status' => 'approved',
         ]);
 
         return response()->json($review, 201);
@@ -74,8 +82,8 @@ class FeedbackController extends Controller
         $review = Feedback::findOrFail($id);
 
         $request->validate([
-            'rating' => 'sometimes|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:1000'
+            'rating'  => 'sometimes|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1000',
         ]);
 
         if ($review->id_user != $request->id_user) {
@@ -102,38 +110,48 @@ class FeedbackController extends Controller
         return response()->json(['message' => 'Đã xoá đánh giá.']);
     }
 
-   public function checkFeedback(Request $request)
-{
-    $validated = $request->validate([
-        'id_user' => 'required|numeric',
-        'id_productdetail' => 'required|numeric'
-    ]);
+    public function checkFeedback(Request $request)
+    {
+        $validated = $request->validate([
+            'id_user'          => 'required|numeric',
+            'id_productdetail' => 'required|numeric',
+        ]);
 
-    $id_bill = DB::table('billdetail')
-        ->join('bill', 'billdetail.id_bill', '=', 'bill.id_bill')
-        ->where('bill.id_user', $request->id_user)
-        ->where('billdetail.id_productdetail', $request->id_productdetail)
-        ->value('bill.id_bill');
+        // 🔹 Lấy tất cả đơn delivered chứa sản phẩm
+        $bills = DB::table('billdetail')
+            ->join('bill', 'billdetail.id_bill', '=', 'bill.id_bill')
+            ->where('bill.id_user', $request->id_user)
+            ->where('billdetail.id_productdetail', $request->id_productdetail)
+            ->where('bill.order_status', 'delivered')
+            ->select('bill.id_bill', 'bill.ngaydat')
+            ->orderBy('bill.ngaydat', 'asc')
+            ->get();
 
-    if (!$id_bill) {
-        return response()->json(['exists' => false]);
+        foreach ($bills as $bill) {
+            $feedbackExists = Feedback::where('id_user', $request->id_user)
+                ->where('id_productdetail', $request->id_productdetail)
+                ->where('id_bill', $bill->id_bill)
+                ->exists();
+
+            if (! $feedbackExists) {
+                return response()->json([
+                    'exists'  => false,
+                    'id_bill' => $bill->id_bill,
+                    'ngaydat' => $bill->ngaydat,
+                    'message' => 'Bạn có thể đánh giá đơn hàng này.',
+                ]);
+            }
+        }
+
+        return response()->json([
+            'exists'  => true,
+            'message' => 'Bạn đã đánh giá tất cả các đơn hàng chứa sản phẩm này.',
+        ]);
     }
-
-    $feedback = Feedback::where('id_user', $request->id_user)
-        ->where('id_productdetail', $request->id_productdetail)
-        ->where('id_bill', $id_bill)
-        ->first();
-
-    return response()->json([
-        'exists' => !!$feedback,
-        'id_feedback' => optional($feedback)->id
-    ]);
-}
-
 
     public function hide($id)
     {
-        $review = Feedback::findOrFail($id);
+        $review         = Feedback::findOrFail($id);
         $review->status = 'hidden';
         $review->save();
 
@@ -142,7 +160,7 @@ class FeedbackController extends Controller
 
     public function approve($id)
     {
-        $review = Feedback::findOrFail($id);
+        $review         = Feedback::findOrFail($id);
         $review->status = 'approved';
         $review->save();
 
@@ -154,7 +172,7 @@ class FeedbackController extends Controller
         $review = Feedback::findOrFail($id);
 
         $request->validate([
-            'store_reply' => 'required|string|max:1000'
+            'store_reply' => 'required|string|max:1000',
         ]);
 
         $review->store_reply = $request->store_reply;
@@ -166,18 +184,19 @@ class FeedbackController extends Controller
     public function uploadMedia(Request $request, $id)
     {
         $request->validate([
-            'media' => 'required|array',
+            'media'   => 'required|array',
             'media.*' => 'file|mimes:jpg,jpeg,png,mp4|max:10240',
         ]);
 
         foreach ($request->file('media') as $file) {
-            $path = $file->store('public/review_media');
+            $path = $file->store('review_media', 'public');
 
-            FeedbackMedia::create([
-                'review_id' => $id,
-                'media_url' => $path,
-                'type' => $file->getClientOriginalExtension() === 'mp4' ? 'video' : 'image',
-            ]);
+           FeedbackMedia::create([
+    'review_id' => $id,
+    'media_url' => 'storage/' . $path,
+    'type'      => $file->getClientOriginalExtension() === 'mp4' ? 'video' : 'image',
+]);
+
         }
 
         return response()->json(['message' => 'Đã tải lên media.']);
@@ -206,4 +225,5 @@ class FeedbackController extends Controller
 
         return response()->json($query->orderByDesc('created_at')->get());
     }
+    
 }

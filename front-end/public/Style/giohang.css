@@ -1,0 +1,388 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #fffcf7;
+  color: #111;
+}
+
+/* === HEADER === */
+.header {
+  background-color: #fff;
+  padding: 10px 30px;
+  height: 100px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  height: 75px;
+}
+
+.logo {
+  margin-left: 50px;
+  height: 75px;
+  margin-right: 10px;
+}
+
+.store-name {
+  margin-left: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: auto;
+}
+
+.search-box {
+    position: relative;
+  left: -100px;
+  display: flex;
+  border: 1px solid #007BFF;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0 20px;
+}
+
+.search-box input {
+   
+  padding: 8px 12px;
+  border: none;
+  outline: none;
+  width: 250px;
+}
+
+.search-box button {
+    
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.header-icons {
+    position: relative;
+    left: -100px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icons div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+}
+
+.header-icons i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.advise-btn {
+  background: linear-gradient(to right, #007BFF, #5a5eff);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* === NAVIGATION === */
+.nav-bar {
+  background-color: #007BFF;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 12px 0;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-bar a i {
+  margin-left: 6px;
+}
+
+/* === MAIN === */
+.main-content {
+  max-width: 100%;
+  margin: 60px auto;
+  padding: 0 20px;
+  position: relative;
+}
+
+/* .main-content p {
+  margin-left: 30%;
+} */
+
+.main-content h1 {
+  margin-left: 50%;
+  font-size: 36px;
+  color: #007BFF;
+  margin-bottom: 10px;
+}
+
+.empty-text {
+  font-size: 18px;
+  color: #6c6c6c;
+  margin-bottom: 30px;
+}
+
+.cart-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.back-btn {
+  color: #007BFF;
+  border: 1.5px solid #007BFF;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-btn:hover {
+  color: snow;
+  background-color: #0070e0;
+}
+
+.clear-cart {
+  text-decoration: underline;
+  color: #df0c0c;
+  font-size: 16px;
+}
+
+.clear-cart:hover {
+  color: black;
+}
+
+/* === CART SUMMARY === */
+.cart-summary {
+  position: absolute;
+  top: 100px;
+  right: 0;
+  background-color: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  width: 320px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+
+.cart-summary h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.discount-section {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.discount-section input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #007BFF;
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  outline: none;
+}
+
+.discount-section button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 0 6px 6px 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.subtotal,
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.total strong {
+  font-size: 20px;
+}
+
+.checkout-btn {
+  width: 100%;
+  background-color: #007BFF;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+/* === FOOTER === */
+.footer {
+  margin-top: 20px;
+  background: #fff8f3;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  padding-top: 40px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.newsletter {
+  background: #007BFF;
+  color: white;
+  padding: 30px 40px;
+  border-radius: 16px;
+  margin-bottom: 50px;
+}
+
+.newsletter h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  min-width: 250px;
+}
+
+.newsletter-form button {
+  background-color: white;
+  color: #007BFF;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-column {
+  flex: 1 1 250px;
+}
+
+.footer-column h3.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007BFF;
+  margin-bottom: 16px;
+}
+
+.footer-column h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+.footer-column p,
+.footer-column a {
+  font-size: 14px;
+  line-height: 1.6;
+  text-decoration: none;
+  color: #333;
+}
+
+.footer-column a:hover {
+  color: #007BFF;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 10px;
+}
+
+.social-icons {
+  margin-top: 12px;
+}
+
+.social-icons a img {
+  width: 28px;
+  margin-right: 12px;
+}
+
+.footer-bottom {
+  border-top: 1px solid #ddd;
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.payment-icons img {
+  height: 26px;
+  margin-left: 10px;
+}
+.cart-badge {
+  background-color: #e11d48; /* Màu đỏ */
+  color: white;
+  font-size: 10px; /* Cỡ chữ nhỏ */
+  padding: 2px 6px; /* Điều chỉnh padding để kiểm soát kích thước */
+  border-radius: 50%; /* Làm cho nó tròn hoàn hảo */
+  min-width: 16px; /* Đảm bảo chiều rộng tối thiểu */
+  height: 16px; /* Đảm bảo chiều cao nhất quán */
+  display: flex; /* Dùng flexbox để căn giữa nội dung */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  box-sizing: border-box; /* Bao gồm padding và border trong kích thước tổng */
+
+  /* Định vị trên biểu tượng giỏ hàng (nếu phần tử cha có position: relative) */
+  position: absolute;
+  top: -5px; /* Điều chỉnh vị trí */
+  right: -5px; /* Điều chỉnh vị trí */
+  z-index: 10;
+}

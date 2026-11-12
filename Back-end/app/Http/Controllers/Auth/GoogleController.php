@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -33,7 +32,7 @@ class GoogleController extends Controller
 
         $token = $user->createToken('authToken')->plainTextToken;
 
-        // ✅ Redirect về frontend kèm các thông tin user cần thiết
-        return redirect("http://localhost:3000/dangnhap?token={$token}&name={$user->name}&email={$user->email}&role={$user->role}");
+        // ✅ Thêm id_user vào query string để frontend dùng cho giỏ hàng
+        return redirect("http://localhost:3000/dangnhap?token={$token}&id_user={$user->id_user}&name={$user->name}&email={$user->email}&role={$user->role}");
     }
 }

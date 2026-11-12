@@ -46,8 +46,12 @@ class BillManagementController extends Controller
                       ->orWhere('dienthoai_nguoinhan', 'like', "%{$searchTerm}%");
                 });
             }
+            $perPage = $request->input('per_page', 15); // Default 15 items per page
+            $page = $request->input('page', 1);
 
-            $bills = $query->orderBy('ngaydat', 'desc')->paginate(15); // Adjust pagination size
+           $perPage = min(max($perPage, 1), 100); // Giới hạn từ 1 đến 100 bản ghi
+
+            $bills = $query->orderBy('ngaydat', 'desc')->paginate($perPage, ['*'], 'page', $page);
 
             return response()->json([
                 'status' => Response::HTTP_OK,
@@ -225,6 +229,7 @@ public function markAsDelivered(Bill $bill)
         }
 
         $bill->order_status = 'delivered'; // Chuyển sang trạng thái đã giao hàng
+        $bill->ngaynhan = now(); // Thêm ngày nhận khi giao hàng thành công
         $bill->save();
 
         Log::info("Đơn hàng ID {$bill->id_bill} đã được đánh dấu là đã giao hàng bởi admin.");

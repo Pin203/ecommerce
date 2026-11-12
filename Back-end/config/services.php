@@ -15,7 +15,7 @@ return [
 
     'ses'      => [
         'key'    => env('AWS_ACCESS_KEY_ID'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY'),   
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
@@ -26,6 +26,16 @@ return [
         'endpoint'     => env('ZALOPAY_ENDPOINT', 'https://sb-openapi.zalopay.vn/v2/create'),
         'callback_url' => env('ZALOPAY_CALLBACK_URL', 'https://yourdomain.com/api/zalopay/callback'),
     ],
+
+    'vnpay' => [
+    'tmn_code' => env('VNPAY_TMN_CODE'),
+    'hash_secret' => env('VNPAY_HASH_SECRET'),
+    'url' => env('VNPAY_URL'),
+    'return_url' => env('VNPAY_RETURN_URL'),
+    ],
+
+
+
 
     'google'   => [
         'client_id'     => env('GOOGLE_CLIENT_ID'),

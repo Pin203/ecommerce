@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,9 +22,16 @@ class FeedbackMedia extends Model
         return $this->belongsTo(Feedback::class, 'review_id');
     }
 
-    // Accessor trả về URL đầy đủ của media
+    // Accessor: trả về URL đầy đủ
     public function getMediaUrlAttribute($value)
     {
-        return Storage::url($value);
+        // Nếu trong DB đã có "storage/" thì trả thẳng
+        if (str_starts_with($value, '/storage/')) {
+            return asset($value);
+        }
+
+        // Nếu chỉ lưu "review_media/..." thì thêm "storage/"
+        return asset('storage/' . $value);
     }
 }
+

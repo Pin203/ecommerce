@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
-use App\Models\{Bill, BillDetail, Product, Discount};
+use Illuminate\Support\Facades\{Auth, DB, Log};
+use App\Models\{Bill, BillDetail, Product, Discount, ProductDetail, Cart};
 
 class ZaloPayController extends Controller
 {
@@ -14,7 +15,6 @@ class ZaloPayController extends Controller
     private $key1;
     private $key2;
     private $endpoint;
-    private $callback_url;
 
     public function __construct()
     {
@@ -22,117 +22,150 @@ class ZaloPayController extends Controller
         $this->key1 = config('services.zalopay.key1');
         $this->key2 = config('services.zalopay.key2');
         $this->endpoint = config('services.zalopay.endpoint');
-        $this->callback_url = config('services.zalopay.callback_url');
 
         if (
             empty($this->app_id) || empty($this->key1) || empty($this->key2) ||
-            empty($this->endpoint) || empty($this->callback_url)
+            empty($this->endpoint)
         ) {
             throw new \Exception('Cấu hình ZaloPay bị thiếu hoặc không hợp lệ.');
         }
     }
 
-    public function createPayment($validated, $bill)
+    public function createPaymentRequest(array $validated, $user)
     {
         try {
-            $discountCode = $validated['discount_code'] ?? null;
-            $totalPrice = $validated['total_price'];
-            $totalVND = $this->applyDiscount($discountCode, $totalPrice);
+            // Bước 1: Tạo hóa đơn nháp
+            $bill = Bill::create([
+                'id_user' => $user->id_user,
+                'hoten_nguoinhan' => $user->name,
+                'diachi_nguoinhan' => $validated['address'],
+                'dienthoai_nguoinhan' => $validated['phone'],
+                'pttt' => 'ZaloPay',
+                'ngaydat' => now(),
+                'id_voucher' => $validated['id_voucher'] ?? null,
+                'voucher_discount' => $validated['voucher_discount'] ?? 0,
+                'total' => $validated['total_price'],
+                'order_status' => 'pending',
+                'payment_status' => 'paid',
+            ]);
 
-            $embeddata = json_encode(['redirecturl' => 'http://127.0.0.1:8000/dashboard']);
+            // Bước 2: Lưu chi tiết hóa đơn vào cache
+            $billDetailsData = collect($validated['products'])->map(function ($product) use ($bill) {
+                return [
+                    'id_bill' => $bill->id_bill,
+                    'id_productdetail' => $product['product_id'],
+                    'quantity' => $product['quantity'],
+                    'price' => $product['price'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            })->toArray();
+            Cache::put("zalopay_bill_details_{$bill->id_bill}", $billDetailsData, now()->addHours(2));
+
+            // Bước 3: Giảm tồn kho và xóa giỏ hàng
+            DB::transaction(function () use ($bill, $billDetailsData) {
+                $productDetailIds = collect($billDetailsData)->pluck('id_productdetail');
+                foreach ($billDetailsData as $detail) {
+                    ProductDetail::find($detail['id_productdetail'])->decrement('sl', $detail['quantity']);
+                }
+                Cart::where('id_user', $bill->id_user)
+                    ->whereIn('id_productdetail', $productDetailIds)
+                    ->delete();
+                BillDetail::insert($billDetailsData);
+            });
+
+            // Bước 4: Tạo yêu cầu thanh toán ZaloPay
+            $totalVND = (int) round($validated['total_price']);
+            $embeddata = json_encode(['redirecturl' => 'http://localhost:3000/my-orders?bill_id=' . $bill->id_bill]);
             $item = json_encode($validated['products']);
-            $bill_code = date("ymd") . "_" . time();
-            Cache::put("zalopay_bill_{$bill_code}", $bill->id_bill, now()->addHour());
+            $apptransid = date("ymd") . "_" . time() . "_" . $bill->id_bill;
+            Cache::put("zalopay_apptransid_{$apptransid}", $bill->id_bill, now()->addHours(2));
             $apptime = round(microtime(true) * 1000);
 
             $data = [
                 "appid" => $this->app_id,
-                "appuser" => "user_" . $bill->id_user,
+                "appuser" => "user_" . $user->id_user,
                 "apptime" => $apptime,
                 "amount" => $totalVND,
-                "apptransid" => $bill_code,
+                "apptransid" => $apptransid,
                 "embeddata" => $embeddata,
                 "item" => $item,
                 "bankcode" => "",
                 "description" => "Thanh toán hóa đơn #{$bill->id_bill}",
-                "callbackurl" => $this->callback_url
             ];
 
             $data["mac"] = hash_hmac("sha256", implode("|", [
                 $this->app_id,
-                $bill_code,
-                "user_" . $bill->id_user,
+                $apptransid,
+                "user_" . $user->id_user,
                 $totalVND,
                 $apptime,
                 $embeddata,
                 $item
             ]), $this->key1);
 
-            // $response = Http::asForm()->post($this->endpoint, $data)->json();
-            $response = Http::withOptions([
-            'verify' => false // ❗️tắt kiểm tra SSL – chỉ dùng để test local
-            ])->asForm()->post($this->endpoint, $data)->json();
+            // Bước 5: Gọi API ZaloPay
+            Log::info('Yêu cầu ZaloPay:', $data);
+            $response = Http::withOptions(['verify' => false])->asForm()->post($this->endpoint, $data)->json();
+            Log::info('Phản hồi từ ZaloPay:', $response ?? ['error' => 'Không có phản hồi']);
 
             if (isset($response["returncode"]) && $response["returncode"] == 1) {
-                return response()->json([
+                return [
                     'status' => 200,
                     'message' => 'Tạo yêu cầu thanh toán ZaloPay thành công',
                     'redirect_url' => $response['orderurl'],
                     'bill_id' => $bill->id_bill,
-                ]);
+                ];
             }
 
-            return response()->json([
+            // Nếu lỗi, xóa hóa đơn và hoàn lại tồn kho/giỏ hàng
+            DB::transaction(function () use ($bill, $billDetailsData) {
+                foreach ($billDetailsData as $detail) {
+                    ProductDetail::find($detail['id_productdetail'])->increment('sl', $detail['quantity']);
+                }
+                $cartData = collect($billDetailsData)->map(function ($detail) use ($bill) {
+                    return [
+                        'id_user' => $bill->id_user,
+                        'id_productdetail' => $detail['id_productdetail'],
+                        'quantity' => $detail['quantity'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                })->toArray();
+                Cart::insert($cartData);
+                $bill->delete();
+            });
+            return [
                 'status' => 400,
                 'message' => 'Lỗi tạo yêu cầu thanh toán ZaloPay: ' . ($response['returnmessage'] ?? 'Không rõ lý do.'),
                 'error_code' => $response['returncode'] ?? null,
                 'sub_error_code' => $response['subreturncode'] ?? null,
-            ], 400);
+            ];
+
         } catch (\Exception $e) {
-            return response()->json([
+            if (isset($bill) && $bill->exists) {
+                DB::transaction(function () use ($bill, $billDetailsData) {
+                    foreach ($billDetailsData as $detail) {
+                        ProductDetail::find($detail['id_productdetail'])->increment('sl', $detail['quantity']);
+                    }
+                    $cartData = collect($billDetailsData)->map(function ($detail) use ($bill) {
+                        return [
+                            'id_user' => $bill->id_user,
+                            'id_productdetail' => $detail['id_productdetail'],
+                            'quantity' => $detail['quantity'],
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ];
+                    })->toArray();
+                    Cart::insert($cartData);
+                    $bill->delete();
+                });
+            }
+            Log::error('Lỗi xử lý ZaloPay: ' . $e->getMessage(), ['exception' => $e]);
+            return [
                 'status' => 500,
                 'message' => 'Lỗi xử lý ZaloPay: ' . $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    private function applyDiscount(?string $discountCode, float $totalPrice): int
-    {
-        return (int) round($totalPrice); // đơn giản nếu không tính giảm giá
-    }
-
-    public function ZaloPaySuccess(Request $request)
-    {
-        try {
-            $data = $request->input('data');
-            $mac = $request->input('mac');
-            $calculatedMac = hash_hmac('sha256', $data, $this->key2);
-
-            if ($mac !== $calculatedMac) {
-                return response()->json(['returncode' => -1, 'returnmessage' => 'Sai chữ ký']);
-            }
-
-            $callbackData = json_decode($data, true);
-            $bill_code = $callbackData['apptransid'];
-            $billId = Cache::get("zalopay_bill_{$bill_code}");
-
-            $bill = Bill::find($billId);
-            if (!$bill) {
-                return response()->json(['returncode' => -1, 'returnmessage' => 'Không tìm thấy hóa đơn']);
-            }
-
-            if ($bill->payment_status === 'pending') {
-                if ($callbackData['returncode'] == 1) {
-                    $bill->payment_status = 'paid';
-                } elseif ($callbackData['returncode'] == 2) {
-                    $bill->payment_status = 'failed';
-                }
-                $bill->save();
-            }
-
-            return response()->json(['returncode' => 1, 'returnmessage' => 'Thành công']);
-        } catch (\Exception $e) {
-            return response()->json(['returncode' => -1, 'returnmessage' => 'Lỗi: ' . $e->getMessage()]);
+            ];
         }
     }
 
@@ -145,27 +178,61 @@ class ZaloPayController extends Controller
                 return response()->json(['status' => 404, 'message' => 'Không tìm thấy hóa đơn'], 404);
             }
 
-            if ($bill->payment_status !== 'pending') {
-                return response()->json(['status' => 400, 'message' => 'Không thể hủy vì không ở trạng thái chờ thanh toán'], 400);
-            }
+            DB::transaction(function () use ($bill) {
+                $bill->order_status = 'cancelled';
+                $bill->payment_status = 'failed';
+                $bill->save();
 
-            $billDetails = BillDetail::where('id_bill', $bill->id_bill)->get();
-
-            foreach ($billDetails as $detail) {
-                $product = Product::find($detail->id_product);
-                if ($product) {
-                    $product->stock_quantity += $detail->quantity;
-                    $product->sold -= $detail->quantity;
-                    $product->save();
+                $billDetailsData = Cache::get("zalopay_bill_details_{$bill->id_bill}");
+                if ($billDetailsData) {
+                    foreach ($billDetailsData as $detail) {
+                        ProductDetail::find($detail['id_productdetail'])->increment('sl', $detail['quantity']);
+                    }
+                    // Phục hồi giỏ hàng
+                    $cartData = collect($billDetailsData)->map(function ($detail) use ($bill) {
+                        return [
+                            'id_user' => $bill->id_user,
+                            'id_productdetail' => $detail['id_productdetail'],
+                            'quantity' => $detail['quantity'],
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ];
+                    })->toArray();
+                    Cart::insert($cartData);
                 }
+            });
+
+            Cache::forget("zalopay_bill_details_{$bill->id_bill}");
+            Log::info('Hủy hóa đơn ZaloPay thành công, tồn kho và giỏ hàng được hoàn lại.', ['id_bill' => $billId]);
+            return response()->json(['status' => 200, 'message' => 'Hủy hóa đơn thành công, tồn kho và giỏ hàng đã được hoàn lại']);
+
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi hủy hóa đơn: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json(['status' => 500, 'message' => 'Lỗi khi hủy hóa đơn: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function checkPaymentStatus(Request $request, $billId)
+    {
+        try {
+            $bill = Bill::find($billId);
+            if (!$bill) {
+                return response()->json(['status' => 404, 'message' => 'Không tìm thấy hóa đơn'], 404);
             }
 
-            $bill->payment_status = 'cancelled';
-            $bill->save();
+            return response()->json([
+                'status' => 200,
+                'bill' => [
+                    'id_bill' => $bill->id_bill,
+                    'order_status' => $bill->order_status,
+                    'payment_status' => $bill->payment_status,
+                    'total' => $bill->total,
+                ],
+            ]);
 
-            return response()->json(['status' => 200, 'message' => 'Hủy hóa đơn thành công và đã hoàn kho']);
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => 'Lỗi khi hủy hóa đơn: ' . $e->getMessage()], 500);
+            Log::error('Lỗi khi kiểm tra trạng thái thanh toán: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json(['status' => 500, 'message' => 'Lỗi: ' . $e->getMessage()], 500);
         }
     }
 }

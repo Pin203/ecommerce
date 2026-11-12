@@ -1,0 +1,175 @@
+.voucher-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.voucher-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.voucher-form input,
+.voucher-form select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.voucher-form button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+.voucher-form button:hover {
+  background: #0056b3;
+}
+
+.voucher-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.voucher-table th,
+.voucher-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.voucher-table th {
+  background: #f2f2f2;
+}
+
+.voucher-table button {
+  margin: 0 4px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.voucher-table button:first-child {
+  background: #ffc107;
+  color: #000;
+}
+.voucher-table button:last-child {
+  background: #dc3545;
+  color: #fff;
+}
+
+.active {
+  color: green;
+  font-weight: bold;
+}
+.inactive {
+  color: red;
+  font-weight: bold;
+}
+/* popup thông báo */
+.popup-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #4caf50;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 1000;
+  animation: fadeOut 2s forwards;
+}
+
+/* popup xác nhận */
+.popup-confirm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+}
+
+.popup-box {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.popup-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.popup-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.popup-actions button:first-child {
+  background: #f44336;
+  color: white;
+}
+
+.popup-actions button:last-child {
+  background: #ccc;
+}
+
+/* hiệu ứng biến mất */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.voucher-table button {
+  margin: 2px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.voucher-table button:nth-child(1) {
+  background: #007bff;
+  color: white;
+}
+
+.voucher-table button:nth-child(2) {
+  background: #dc3545;
+  color: white;
+}
+
+.voucher-table button:nth-child(3) {
+  background: #ffc107;
+  color: black;
+}

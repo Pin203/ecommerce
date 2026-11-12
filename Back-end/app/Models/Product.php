@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Builder;
 class Product extends Model
 {
     use HasFactory;
@@ -22,9 +22,15 @@ class Product extends Model
         'img',
         'img_phu',
         'discount',
-        'is_featured'
+        'is_featured',
+        'status'
     ];
-
+       protected static function booted()
+    {
+        static::addGlobalScope('visible', function (Builder $builder) {
+            $builder->where('status', 0);
+        });
+    }
     // Quan hệ với Category
     public function category()
     {

@@ -1,0 +1,217 @@
+.comment-box {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}
+
+.comment-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.comment-input,
+.comment-edit-input {
+  width: 100%;
+  padding: 10px;
+  resize: vertical;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.comment-submit,
+.comment-edit-btn,
+.comment-delete-btn,
+.comment-save-btn,
+.comment-cancel-btn {
+  padding: 6px 12px;
+  margin-right: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.comment-delete-btn {
+  background-color: #dc3545;
+}
+
+.comment-save-btn {
+  background-color: #28a745;
+}
+
+.comment-cancel-btn {
+  background-color: #6c757d;
+}
+
+.comment-list {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-user {
+  font-weight: bold;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.comment-content {
+  margin: 5px 0;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #777;
+}
+
+.comment-empty {
+  font-style: italic;
+  color: #999;
+}
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.comment-submit {
+  align-self: flex-end;
+  padding: 4px 10px;
+  font-size: 18px; /* chữ nhỏ lại */
+  margin-top: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.dots-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.actions-dropdown {
+  display: flex;
+  gap: 5px;
+  margin-left: 8px;
+}
+
+.actions-dropdown button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.actions-dropdown .comment-edit-btn {
+  background-color: #007bff;
+}
+
+.actions-dropdown .comment-delete-btn {
+  background-color: #dc3545;
+}
+.dots-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  position: relative;
+}
+
+.comment-actions {
+  position: relative;
+}
+
+.actions-dropdown {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 120px;
+  padding: 5px 0;
+}
+
+.actions-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #333;
+}
+
+.actions-dropdown button:hover {
+  background-color: #f1f1f1;
+}
+.comment-actions {
+  position: relative;
+  display: inline-block;
+}
+
+.dots-btn {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.actions-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  overflow: hidden;
+  width: 140px;
+}
+
+.actions-dropdown div {
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.actions-dropdown div:hover {
+  background-color: #f2f2f2;
+}
